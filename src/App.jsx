@@ -1,25 +1,25 @@
 import './App.css';
 import React, { useState } from 'react';
-import Split from 'react-split';
 import SearchBar from './components/SearchBar';
-import Editor from './components/Editor';
+import NoteDialog from './components/NoteDialog';
 import { nanoid } from 'nanoid';
 
 function App() {
-  const [notes, setNotes] = useState([]);
+  const [open, setOpen] = React.useState(false);
 
-  // function createNote() {
-  //   const newNote = {
-  //     id: nanoid(), // Assuming you have nanoid imported
-  //     title: '',
-  //     content: '',
-  //   };
-  //   setNotes([...notes, newNote]);
-  // }
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   return (
   <div className="homescreen">
-  <SearchBar/>
+  <SearchBar handleClickOpen={handleClickOpen}/>
+  {open ? <NoteDialog isOpen={handleClickOpen} isClosed={handleClose}/> : ""}
+  
   </div>
   )
 }
