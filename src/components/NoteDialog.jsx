@@ -1,9 +1,9 @@
-
 import { nanoid } from 'nanoid';
 import React, { useRef } from 'react';
 import { Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle, MenuItem, InputLabel } from '@material-ui/core'
 
-export default function NoteDialog({ isOpen, isClosed, addNote }) {
+export default function NoteDialog({ isClosed, currentNote, setCurrentNote, notes, setNotes, setOpen,setFilteredNotes,filteredNotes }) {
+
 
   const categories = [
     "Personal",
@@ -11,42 +11,74 @@ export default function NoteDialog({ isOpen, isClosed, addNote }) {
     "Business"
   ];
 
-  const [newNote, setNewNote] = React.useState({
-    id: nanoid(),
-    Title: "",
-    Category: "",
-    Description: ""
-  })
-
   const handleChange = (e, field) => {
     const { id, value } = e.target;
-    setNewNote((prevNote) => ({
+    setCurrentNote((prevNote) => ({
       ...prevNote,
       [id]: value,
       [field]: value,
     }));
   };
 
-
-
   const handleAddNote = () => {
-    if (newNote.Title && newNote.Description) {
-      addNote(newNote);
-      setNewNote({
+    // Check if the Title and Description of the new note are provided
+    if (currentNote.Title && currentNote.Description) {
+      // Check if the newNote already exists in the notes array
+      const noteIndex = notes.findIndex((note) => note.id === currentNote.id);
+  
+      if (noteIndex >= 0) {
+        // If the note already exists, update it in the notes array
+        setNotes((prevNotes) => {
+          const updatedNotes = [...prevNotes];
+          updatedNotes[noteIndex] = currentNote;
+          return updatedNotes;
+        });
+
+        //if there are filteredNotes in the array
+        if (filteredNotes.length > 0) {
+          setFilteredNotes((prevFilteredNotes) => {
+            const updatedFilteredNotes = [...prevFilteredNotes];
+            const filteredNoteIndex = updatedFilteredNotes.findIndex((note) => note.id === currentNote.id);
+            
+            //if the specific index of the note in the filteredArray is greater than 0
+            if (filteredNoteIndex >= 0) {
+              updatedFilteredNotes[filteredNoteIndex] = currentNote;
+            }
+  
+            return updatedFilteredNotes;
+          });
+        }
+      } else {
+        // If the note doesn't exist, add it to the notes array
+        setNotes((prevNotes) => [...prevNotes, currentNote]);
+  
+        // If filteredNotes are present, add the note to the filteredNotes array
+        if (filteredNotes.length > 0) {
+          setFilteredNotes((prevFilteredNotes) => [...prevFilteredNotes, currentNote]);
+        }
+      }
+  
+      // Reset the newNote state for the next note
+      setCurrentNote({
         id: nanoid(),
         Title: "",
         Category: "",
         Description: "",
+        date: Date(),
       });
+  
+      // Close the modal
+      setOpen(false);
     } else {
+      // Log an error if Title and Description are not provided
       console.error("Title and Description are required.");
     }
   };
-
+  
   return (
     <div className="note--dialog">
       <>
-        <Dialog open={isOpen}
+        <Dialog open
           onClose={isClosed}
           fullWidth
 
@@ -62,7 +94,7 @@ export default function NoteDialog({ isOpen, isClosed, addNote }) {
               id="Title"
               type="text"
               variant="outlined"
-              value={newNote.Title}
+              value={currentNote.Title}
               onChange={handleChange}
 
             />
@@ -70,12 +102,12 @@ export default function NoteDialog({ isOpen, isClosed, addNote }) {
             <InputLabel style={{ color: 'black', margin: 5 }}>Category</InputLabel>
             <TextField
               id="Category"
-              name="Category" 
+              name="Category"
               size="small"
               sx={{ width: 200 }}
               select
               variant="outlined"
-              value={newNote.Category}
+              value={currentNote.Category}
               onChange={(e) => handleChange(e, "Category")}
             >
               {categories.map((category) => (
@@ -91,13 +123,13 @@ export default function NoteDialog({ isOpen, isClosed, addNote }) {
               autoFocus
               margin="dense"
               id="Description"
-              value={newNote.Description}
+              value={currentNote.Description}
               type="text"
               fullWidth
               variant="outlined"
               placeholder="Add Description"
               multiline
-              rows={6}
+              minRows={6}
               maxRows={6}
               onChange={handleChange}
             />
