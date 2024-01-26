@@ -128,10 +128,10 @@ img{
 .pink{
   background-color: pink;
 }
-/* Add this to your CSS file */
+
 .notes.completed {
-  /* Add styles for completed notes */
-  opacity: 0.7; /* Example: reduce opacity for completed notes */
-  text-decoration: line-through; /* Example: strike-through text for completed notes */
-  /* Add any other styles as needed */
+
+  opacity: 0.7; 
+  text-decoration: line-through; /
+
 }

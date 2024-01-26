@@ -1,9 +1,8 @@
-// NoteList.js
 import React from "react";
 import Note from "./Note";
 
 export default function NoteList({ notes, editNotes, openDeleteDialog, completedNote, filteredNotes }) {
-  
+
   const sortedNotes = (filteredNotes.length > 0 ? filteredNotes : [...notes]).sort((note1, note2) => {
     if (note1.completed && !note2.completed) {
       return 1;

@@ -1,8 +1,7 @@
-
 import React from 'react';
 
 export default function Note ({ note, editNotes, openDeleteDialog, completedNote }){
-  
+
  const getCategoryColorClass = (category) => {
   switch (category) {
     case 'Personal':

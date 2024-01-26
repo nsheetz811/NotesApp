@@ -6,15 +6,15 @@ export default function SearchBar({ handleClickOpen, notes,setFilteredNotes }) {
 
 
  const handleChange = (e) => {
-  //searchTerm is what the user is entering
+
   const userInput = e.target.value
   setSearchInput(userInput);
 
-  // Check if notes and setFilteredNotes are defined before filtering
+
   if (notes && setFilteredNotes) {
-    // Perform case-insensitive, partial matching
+
     const filtered = notes.filter((note) =>
-    //filtering the Title fo the note that includes what the user typed
+
       note.Title.toLowerCase().includes(userInput)
     );
     setFilteredNotes(filtered);

@@ -21,26 +21,25 @@ export default function NoteDialog({ isClosed, currentNote, setCurrentNote, note
   };
 
   const handleAddNote = () => {
-    // Check if the Title and Description of the new note are provided
+
     if (currentNote.Title && currentNote.Description) {
-      // Check if the newNote already exists in the notes array
+
       const noteIndex = notes.findIndex((note) => note.id === currentNote.id);
   
       if (noteIndex >= 0) {
-        // If the note already exists, update it in the notes array
+
         setNotes((prevNotes) => {
           const updatedNotes = [...prevNotes];
           updatedNotes[noteIndex] = currentNote;
           return updatedNotes;
         });
 
-        //if there are filteredNotes in the array
         if (filteredNotes.length > 0) {
           setFilteredNotes((prevFilteredNotes) => {
             const updatedFilteredNotes = [...prevFilteredNotes];
             const filteredNoteIndex = updatedFilteredNotes.findIndex((note) => note.id === currentNote.id);
             
-            //if the specific index of the note in the filteredArray is greater than 0
+
             if (filteredNoteIndex >= 0) {
               updatedFilteredNotes[filteredNoteIndex] = currentNote;
             }
@@ -49,16 +48,16 @@ export default function NoteDialog({ isClosed, currentNote, setCurrentNote, note
           });
         }
       } else {
-        // If the note doesn't exist, add it to the notes array
+
         setNotes((prevNotes) => [...prevNotes, currentNote]);
   
-        // If filteredNotes are present, add the note to the filteredNotes array
+
         if (filteredNotes.length > 0) {
           setFilteredNotes((prevFilteredNotes) => [...prevFilteredNotes, currentNote]);
         }
       }
   
-      // Reset the newNote state for the next note
+
       setCurrentNote({
         id: nanoid(),
         Title: "",
@@ -67,10 +66,10 @@ export default function NoteDialog({ isClosed, currentNote, setCurrentNote, note
         date: Date(),
       });
   
-      // Close the modal
+
       setOpen(false);
     } else {
-      // Log an error if Title and Description are not provided
+
       console.error("Title and Description are required.");
     }
   };
