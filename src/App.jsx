@@ -5,6 +5,8 @@ import NoteList from './components/NoteList';
 import DeleteNoteDialog from './components/DeleteNoteDialog';
 import { useEffect } from 'react';
 import { nanoid } from 'nanoid';
+
+
 import NoteDialog from './components/NoteDialog';
 
 export default function App() {
@@ -13,31 +15,38 @@ export default function App() {
   const [selectedNoteForDeletion, setSelectedNoteForDeletion] = useState(null);
   const [filteredNotes, setFilteredNotes] = useState([])
   const [complete, setCompleted] = useState(false)
+  const [searchInput, setSearchInput] = React.useState("");
   const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
+
   const [currentNote, setCurrentNote] = useState({
     id: nanoid(),
     Title: "",
     Category: "",
     Description: "",
     date: Date(),
-    completed: false
-
+    completed: false,
   });
+
+
+	useEffect(() => {
+		const notes = JSON.parse(localStorage.getItem('notes'));
+		if (notes) {
+			setNotes(notes);
+		}
+	}, []);
 
   useEffect(() => {
     localStorage.setItem('notes', JSON.stringify(notes))
   }, [notes])
-
-  //open the modal
+  
   const handleClickOpen = () => {
     setOpen(true);
   };
 
-  //close the modal
   const handleClose = () => {
     setOpen(false);
   };
-//open the dialog to delete a note
+
   const openDeleteDialog = (note) => {
     setSelectedNoteForDeletion(note);
     setDeleteDialogOpen(true);
@@ -48,23 +57,21 @@ export default function App() {
     setDeleteDialogOpen(false);
   };
 
-  //check if the ID of the note matches the selectedNote
+ 
   function editNotes(selectedNote) {
-    // Set the updated note when editing
+ 
     setCurrentNote({
       id: selectedNote.id,
       Title: selectedNote.Title,
       Category: selectedNote.Category,
       Description: selectedNote.Description,
       date: Date(),
-      completed: false
+      completed: false,
+      error:false
     });
-
-    // Open the edit dialog or perform other actions
     setOpen(true);
   }
-//filter out the notes that do do not equal to the selectedNote to be deleted
- //-you need to update state for both the notes array and the filtered notes array to make sure the note is deleting in both arrays-//
+
   const deleteNote = () => {
     setNotes((prevNotes) => prevNotes.filter((note) => note.id !== selectedNoteForDeletion.id));
     setFilteredNotes((prevFilteredNotes) =>
@@ -79,13 +86,13 @@ export default function App() {
       const noteIndex = updatedNotes.findIndex((note) => note.id === selectedNote.id);
 
       if (noteIndex >= 0) {
-        // Toggle the completed property of the selectedNote
+  
         selectedNote.completed = !selectedNote.completed;
 
-        // Remove the selectedNote from its current position
+        
         updatedNotes.splice(noteIndex, 1);
 
-        // Move the completedNote to the beginning of the array
+      
         updatedNotes.unshift(selectedNote);
       }
 
@@ -94,11 +101,16 @@ export default function App() {
     setCompleted(true)
   }
 
-
   return (
     <div className="homescreen">
       <SearchBar
-        handleClickOpen={handleClickOpen} notes={notes} setFilteredNotes={setFilteredNotes} />
+        handleClickOpen={handleClickOpen} 
+        notes={notes}
+        setSearchInput={setSearchInput}
+        setFilteredNotes={setFilteredNotes}
+        searchInput={searchInput}
+        filteredNotes={filteredNotes} />
+
       {open ?
         <NoteDialog
           isOpen={handleClickOpen}
@@ -118,6 +130,7 @@ export default function App() {
         openDeleteDialog={openDeleteDialog}
         completedNote={completedNote}
         filteredNotes={filteredNotes}
+        searchInput={searchInput}
       />
       <DeleteNoteDialog
         isOpen={isDeleteDialogOpen}

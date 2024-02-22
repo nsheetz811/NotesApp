@@ -1,7 +1,11 @@
 import React from 'react';
+ import DeleteIcon from "../assets/icons/delete-icon.svg"
+ import EditIcon from "../assets/icons/edit-icon.svg"
 
 export default function Note ({ note, editNotes, openDeleteDialog, completedNote }){
 
+
+  
  const getCategoryColorClass = (category) => {
   switch (category) {
     case 'Personal':
@@ -16,6 +20,7 @@ export default function Note ({ note, editNotes, openDeleteDialog, completedNote
 };
 
  return(
+  <div className="noted">
   <div key={note.id} className={`notes ${note.completed ? 'completed' : ''}`}>
   <div className="note--topMenu">
     <p className={`${"note--category"} ${getCategoryColorClass(note.Category)}`}>
@@ -28,17 +33,16 @@ export default function Note ({ note, editNotes, openDeleteDialog, completedNote
       onChange={() => completedNote(note)}
     />
     <img
-      src="src/assets/icons/edit-icon.svg"
+      src={EditIcon}
       alt="SVG Icon"
       className="icons"
-      onClick={() => editNotes(note)}
-    />
+      onClick={() => editNotes(note)}/>
+    
     <img
-      src="src/assets/icons/delete-icon.svg"
+    src={DeleteIcon}
       alt="SVG Icon"
       className="icons"
-      onClick={() => openDeleteDialog(note)}
-    />
+      onClick={() => openDeleteDialog(note)}/>
   </div>
 
   <h3 className="note--title" style={{ textDecoration: note.completed ? 'line-through' : 'none' }}>
@@ -52,6 +56,7 @@ export default function Note ({ note, editNotes, openDeleteDialog, completedNote
     month: "short",
     day: "numeric",
   })}</p>
+</div>
 </div>
 );
  

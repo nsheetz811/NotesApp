@@ -1,8 +1,8 @@
 import React from "react"
 import SearchIcon from "../assets/icons/search-icon.svg"
 
-export default function SearchBar({ handleClickOpen, notes,setFilteredNotes }) {
- const [searchInput, setSearchInput] = React.useState("");
+export default function SearchBar({ handleClickOpen, notes,setFilteredNotes,searchInput,setSearchInput }) {
+
 
 
  const handleChange = (e) => {
@@ -10,15 +10,12 @@ export default function SearchBar({ handleClickOpen, notes,setFilteredNotes }) {
   const userInput = e.target.value
   setSearchInput(userInput);
 
-
-  if (notes && setFilteredNotes) {
-
     const filtered = notes.filter((note) =>
 
       note.Title.toLowerCase().includes(userInput)
     );
     setFilteredNotes(filtered);
-  }
+  
 };
 
  return (
