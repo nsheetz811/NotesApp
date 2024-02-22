@@ -122,15 +122,16 @@ img{
 }
 
 .green{
-  background-color: green;
+  background-color: #A9DFBF;
 }
 
 .purple{
-  background-color: purple;
+  background-color: #D2B4DE;
 }
 
 .pink{
-  background-color: pink;
+  background-color: #F5B7B1;
+  
 }
 
 .notes.completed {
@@ -150,7 +151,7 @@ img{
 }
 .tab{
   border:none;
-  background-color: none;
+  background-color: var(--Gray---200, #EEE);
 }
 
 .notes--img{
@@ -159,4 +160,11 @@ img{
 
 label{
   margin-bottom:10px;
+}
+.note--category{
+  border-radius: 10%;
+  padding:5px;
+  border:solid 1px;
+  border-color: #808B96;
+  
 }

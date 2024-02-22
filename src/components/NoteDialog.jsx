@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle, MenuItem, InputLabel } from '@material-ui/core';
 
 export default function NoteDialog({ isClosed, currentNote, setCurrentNote, notes, setNotes, setOpen, setFilteredNotes, filteredNotes }) {
+
   const categories = [
     "Personal",
     "Home",

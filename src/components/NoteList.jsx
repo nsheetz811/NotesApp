@@ -23,7 +23,7 @@ setToggleCompleted(showCompletedNotes => !showCompletedNotes)
       <div>
         {categories.map((category)=>(
           <button 
-          key = {category}
+          key= {category}
           onClick={()=>handleCategory(category)}
           className={currentCategory === category ?  "active-tab" : "tab"}
           >

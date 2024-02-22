@@ -14,7 +14,7 @@ export default function Note ({ note, editNotes, openDeleteDialog, completedNote
       return 'green';
     case 'Business':
       return 'purple';
-    default:
+    default: 'category--color'
       return '';
   }
 };
